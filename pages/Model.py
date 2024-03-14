@@ -1,7 +1,7 @@
 import streamlit as st
+from PIL import Image
 
 # Main content
-#st.sidebar.title("Pages")
 
 st.title('Predict Bike Usage')
 st.header("Model")
@@ -21,3 +21,7 @@ st.markdown(
     After an initial Random Forest, we tuned hyperparameters utilizing GridSearchCV.
     """
 )
+
+image = Image.open("photos/NRMSE.png")
+
+st.image(image, caption='Negative RMSE through GridSearchCV.')
