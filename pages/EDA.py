@@ -65,6 +65,8 @@ st.markdown(
     """
 )
 
+
+
 fig2 = px.bar(data, 
             x='weathersit', 
             y='cnt', 
@@ -91,32 +93,123 @@ st.markdown(
 st.markdown(
     """
     We check next the bike rental counts by daily temperature. The red line is the line of best fit utilizing Locally Weighted Scatterplot Smoothing.
+    Use the dropdown menu to change the colors in the chart to a third, optional variable as well.
     """
 )
 
+
 # Upload data that still includes years
 year_data = pd.read_csv("bike-sharing_hourly.csv")
-# Calculate day field
+
 year_data['day'] = year_data['dteday'].apply(lambda x: str(x)[-2:])
 year_data['atemp'] = year_data['atemp'].apply(lambda x: x*50)
-# Group by years, months, day and get a daily average temperature feel + sum of daily counts
-year_data = year_data.groupby(["yr","mnth","day"]).agg({
-    'atemp': 'mean',
-    'cnt': 'sum'
-    })
+year_data['Humidity'] = year_data['hum'].apply(lambda x: x*100)
+year_data['Windspeed'] = year_data['windspeed'].apply(lambda x: x*67)
 
-fig3 = px.scatter(year_data, 
-            x='atemp', 
-            y='cnt', 
-            labels={"atemp": 'Temperature Feel (C)', "cnt": 'Count of Rentals'},
-            trendline='lowess',
-            trendline_color_override='red',
-            title='Count of Rentals by Temperature Feel')
+
+# Group by years, months, day and get a daily average temperature feel + sum of daily counts
+
+chart_type = st.selectbox('Choose a third variable:', ['None','Windspeed', 'Humidity'])
+
+if chart_type == 'None':
+    year_dataset = year_data.groupby(["yr","mnth","day"]).agg({
+        'atemp': 'mean',
+        'cnt': 'sum'
+        })
+    fig3 = px.scatter(year_dataset, 
+                x='atemp', 
+                y='cnt', 
+                labels={"atemp": 'Temperature Feel (C)', "cnt": 'Sum of Rentals'},
+                trendline='lowess',
+                trendline_color_override='red',
+                title='Daily Sum of Rentals by Temperature Feel')
+elif chart_type == 'Windspeed':
+    year_dataset = year_data.groupby(["yr","mnth","day"]).agg({
+        'atemp': 'mean',
+        'cnt': 'sum',
+        'Windspeed':'mean'
+        })
+    fig3 = px.scatter(year_dataset, 
+                x='atemp', 
+                y='cnt', 
+                labels={"atemp": 'Temperature Feel (C)', "cnt": 'Sum of Rentals'},
+                color='Windspeed',
+                trendline='lowess',
+                trendline_color_override='red',
+                title='Daily Sum of Rentals by Temperature Feel')
+elif chart_type == 'Humidity':
+    year_dataset = year_data.groupby(["yr","mnth","day"]).agg({
+        'atemp': 'mean',
+        'cnt': 'sum',
+        'Humidity':'mean'
+        })
+    fig3 = px.scatter(year_dataset, 
+                x='atemp', 
+                y='cnt', 
+                labels={"atemp": 'Temperature Feel (C)', "cnt": 'Sum of Rentals'},
+                color='Humidity',
+                trendline='lowess',
+                trendline_color_override='red',
+                title='Daily Sum of Rentals by Temperature Feel')
 st.plotly_chart(fig3)
 
 st.markdown(
     """
     We see here that there is a marked pattern to amounts of bikes rented: it increases steadily as the temperature gets warmer, until about 30 C, when it flattens and even goes down slightly.
     Logically, these takeaways make sense: people like riding bikes more as it gets warmer, but not when it gets too hot.
+    """
+)
+
+st.markdown(
+    """
+    Let's next look at when during the day more people use bikes, as split by workday and weekend day. We hypothesized that there would be a difference in pattern here.
+    """
+)
+
+
+
+year_data['Working Day'] = year_data['workingday']
+
+hour_data = year_data.groupby(["yr","workingday","hr"]).agg({
+        'yr':'mean',
+        'Working Day':'mean',
+        'hr': 'mean',
+        'cnt': 'mean'
+        })
+
+def change_legend(data):
+    if data == 0:
+        return 'No'
+    else:
+        return 'Yes'
+    
+hour_data['Working Day'] = hour_data['Working Day'].apply(change_legend)
+
+chart_type = st.radio('Choose a year:', ['2011', '2012'])
+
+if chart_type == '2011':
+    hour_data = hour_data[hour_data["yr"] == 0]
+    fig4 = px.line(hour_data, 
+            x='hr', 
+            y='cnt', 
+            labels={"hr": 'Hour', "cnt": 'Mean Rentals'},
+            color='Working Day',
+            title='Mean Rentals by Hour')
+if chart_type == '2012':
+    hour_data = hour_data[hour_data["yr"] == 1]
+    fig4 = px.line(hour_data, 
+            x='hr', 
+            y='cnt', 
+            labels={"hr": 'Hour', "cnt": 'Mean Rentals'},
+            color='Working Day',
+            title='Mean Rentals by Hour')
+st.plotly_chart(fig4)
+
+st.markdown(
+    """
+    Our hypothesis was correct! We see here two large spikes at 8:00 and 17:00 during weekdays - these correlate to when people would commute to work.
+    On the weekends, in contrast, we see that people tend to go biking later, most likely between 10:00 and 17:00. In this case, we understand that 
+    people are less likely to commute to work on the weekends and can take advantage of weekend afternoons for biking for pleasure. We see as well that this pattern
+    remains extremely stable from 2011 to 2012.
     """
 )

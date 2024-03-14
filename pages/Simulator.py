@@ -164,11 +164,11 @@ def change_weekday(data):
         return 1
 
 def change_realtemp(data):
-    temp = data*2.44
+    temp = data/41
     return temp
 
 def change_feeltemp(data):
-    temp = data*2
+    temp = data/50
     return temp
 
 def change_humidity(data):
@@ -176,7 +176,7 @@ def change_humidity(data):
     return data
 
 def change_wind(data):
-    wind = data*1.49
+    wind = data/67
     return wind
 
 def change_weather(data):
