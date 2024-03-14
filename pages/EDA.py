@@ -87,3 +87,36 @@ st.markdown(
     We see here that, as is logical, more people rent bikes the nicer the weather. In the very worst of weather, very few people rent bikes.
     """
 )
+
+st.markdown(
+    """
+    We check next the bike rental counts by daily temperature. The red line is the line of best fit utilizing Locally Weighted Scatterplot Smoothing.
+    """
+)
+
+# Upload data that still includes years
+year_data = pd.read_csv("bike-sharing_hourly.csv")
+# Calculate day field
+year_data['day'] = year_data['dteday'].apply(lambda x: str(x)[-2:])
+year_data['atemp'] = year_data['atemp'].apply(lambda x: x*50)
+# Group by years, months, day and get a daily average temperature feel + sum of daily counts
+year_data = year_data.groupby(["yr","mnth","day"]).agg({
+    'atemp': 'mean',
+    'cnt': 'sum'
+    })
+
+fig3 = px.scatter(year_data, 
+            x='atemp', 
+            y='cnt', 
+            labels={"atemp": 'Temperature Feel (C)', "cnt": 'Count of Rentals'},
+            trendline='lowess',
+            trendline_color_override='red',
+            title='Count of Rentals by Temperature Feel')
+st.plotly_chart(fig3)
+
+st.markdown(
+    """
+    We see here that there is a marked pattern to amounts of bikes rented: it increases steadily as the temperature gets warmer, until about 30 C, when it flattens and even goes down slightly.
+    Logically, these takeaways make sense: people like riding bikes more as it gets warmer, but not when it gets too hot.
+    """
+)
