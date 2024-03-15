@@ -67,11 +67,6 @@ if day_of_week in ["Monday","Tuesday","Wednesday","Thursday","Friday"]:
     holiday = col1.radio(label="Is the day a holiday?", 
                     options=["Yes","No"])
 
-temperature_real = col2.slider(label="What is the real temperature (in Celsius)?",
-             min_value=0,
-             max_value=41,
-             step=1)
-
 temperature_feel = col2.slider(label="What is the temperature feel (in Celsius)?",
              min_value=0,
              max_value=50,
@@ -163,10 +158,6 @@ def change_weekday(data):
     else:
         return 1
 
-def change_realtemp(data):
-    temp = data/41
-    return temp
-
 def change_feeltemp(data):
     temp = data/50
     return temp
@@ -201,7 +192,6 @@ season = change_season(season)
 month = change_month(month)
 day_of_week = change_day_of_week(day_of_week)
 weekday = change_weekday(day_of_week)
-temperature_real = change_realtemp(temperature_real)
 temperature_feel = change_realtemp(temperature_feel)
 humidity = change_humidity(humidity)
 wind = change_wind(wind)
@@ -223,9 +213,9 @@ model = joblib.load("Model.joblib")
 
 # Make prediction and display answer
 if st.button('Click here to predict!'):
-    frame = [[season, month, hour, holiday, weekday, workingday, weather, temperature_real, temperature_feel, humidity, wind, day]]
+    frame = [[season, month, hour, holiday, weekday, workingday, weather, temperature_feel, humidity, wind, day]]
  
-    df = pd.DataFrame(frame, columns=['season','mnth','hr','holiday','weekday','workingday','weathersit','temp','atemp','hum','windspeed','day'])
+    df = pd.DataFrame(frame, columns=['season','mnth','hr','holiday','weekday','workingday','weathersit','atemp','hum','windspeed','day'])
 
     pred = model.predict(df)
     st.write('We predict ', round(pred[0]), ' bike users that day.')
