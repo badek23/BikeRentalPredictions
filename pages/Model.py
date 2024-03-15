@@ -3,6 +3,9 @@ from PIL import Image
 import pandas as pd
 import numpy as np
 import plotly.graph_objects as go
+import plotly.express as px
+import joblib
+from sklearn.ensemble import RandomForestClassifier
 
 # Main content
 
@@ -93,3 +96,20 @@ st.markdown(
     """
 )
 
+
+model = joblib.load("Model.joblib")
+
+model_feat = model.feature_importances_
+columns = data.drop("cnt",axis=1).columns
+
+fig2 = px.bar(model_feat, 
+            x=columns, 
+            y=model_feat,
+            orientation='v',
+            title='Model Feature Importance',
+            barmode='group')
+fig2.update_layout(
+            xaxis_title="Features", yaxis_title="Importance"
+            )
+
+st.plotly_chart(fig2)

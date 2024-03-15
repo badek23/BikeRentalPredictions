@@ -160,13 +160,9 @@ def change_weekday(data):
 
 temperature_feel = temperature_feel/50
 
-def change_humidity(data):
-    data = data/100
-    return data
+humidity = humidity/100
 
-def change_wind(data):
-    wind = data/67
-    return wind
+wind = wind/67
 
 def change_weather(data):
     if data == "Clear; or Partly Cloudy":
@@ -184,14 +180,13 @@ def change_workingday(data1, data2):
     else:
         return 1
 
+
 # Run functions 
     
 season = change_season(season)
 month = change_month(month)
 day_of_week = change_day_of_week(day_of_week)
 weekday = change_weekday(day_of_week)
-humidity = change_humidity(humidity)
-wind = change_wind(wind)
 weather = change_weather(weather)
 
 
@@ -201,7 +196,6 @@ else:
     holiday = 0
 
 workingday = change_workingday(holiday, weekday)
-
 
 
 
