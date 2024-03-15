@@ -24,13 +24,22 @@ data = pd.read_csv("cleaned_data.csv")
 
 chart_type = st.radio('Choose a time period:', ['Seasons', 'Months'])
 
+season_counts = data.groupby('season')['cnt'].sum().reset_index()
+month_counts = data.groupby('mnth')['cnt'].sum().reset_index()
+
 if chart_type == 'Seasons':
-    fig1 = px.bar(data, 
+    fig1 = px.bar(season_counts, 
                 x='season', 
                 y='cnt', 
                 labels={"season": 'Season', "cnt": 'Count of Rentals'},
                 title='Count of Rentals by Season',
-                barmode='group')
+                barmode='group',
+                color='cnt',  # Color bars based on counts
+                color_continuous_scale='viridis',  # Use the same color scale as matplotlib
+                width=800, height=500)  # Adjust width and height for better appearance
+
+# Add text annotations for each bar
+    fig1.update_traces(texttemplate='%{y}', textposition='outside')
     fig1.update_layout(
             xaxis = dict(
                 tickmode = 'array',
@@ -38,12 +47,16 @@ if chart_type == 'Seasons':
                 ticktext = ["Spring","Summer","Autumn","Winter"]
             ))
 elif chart_type == 'Months':
-    fig1 = px.bar(data, 
+    fig1 = px.bar(month_counts, 
                 x='mnth', 
                 y='cnt', 
                 labels={"mnth": 'Month', "cnt": 'Count of Rentals'},
                 title='Count of Rentals by Month',
-                barmode='group') 
+                barmode='group',
+                color='cnt',  # Color bars based on counts
+                color_continuous_scale='viridis',  # Use the same color scale as matplotlib
+                width=800, height=500)  # Adjust width and height for better appearance) 
+    fig1.update_traces(texttemplate='%{y}', textposition='outside')
     fig1.update_layout(
             xaxis = dict(
                 tickmode = 'array',
@@ -68,13 +81,14 @@ st.markdown(
 
 
 fig2 = px.bar(data, 
-            x='weathersit', 
-            y='cnt', 
-            labels={"weathersit": 'Weather Type', "cnt": 'Count of Rentals'},
+            x='cnt', 
+            y='weathersit', 
+            labels={"cnt": 'Count of Rentals',"weathersit": 'Weather Type'},
             title='Count of Rentals by Weather',
+            orientation='h',
             barmode='group')
 fig2.update_layout(
-        xaxis = dict(
+        yaxis = dict(
             tickmode = 'array',
             tickvals = [1,2,3,4],
             ticktext = ["Mostly Clear",

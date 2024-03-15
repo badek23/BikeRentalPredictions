@@ -4,7 +4,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import joblib
-
+from sklearn.ensemble import RandomForestClassifier
 
 # Page text
 
@@ -223,10 +223,9 @@ model = joblib.load("Model.pkl")
 
 # Make prediction and display answer
 if st.button('Click here to predict!'):
-    # Update the 0 and 01 once those are dropped from the data
     frame = [[season, month, hour, holiday, weekday, workingday, weather, temperature_real, temperature_feel, humidity, wind, day]]
  
     df = pd.DataFrame(frame, columns=['season','mnth','hr','holiday','weekday','workingday','weathersit','temp','atemp','hum','windspeed','day'])
 
     pred = model.predict(df)
-    st.write('We predict ', round(pred[0]), ' biker users that day.')
+    st.write('We predict ', round(pred[0]), ' bike users that day.')
