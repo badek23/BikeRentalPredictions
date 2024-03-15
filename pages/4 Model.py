@@ -1,5 +1,4 @@
 import streamlit as st
-from PIL import Image
 import pandas as pd
 import numpy as np
 import plotly.graph_objects as go
@@ -84,7 +83,9 @@ st.markdown(
 
 st.markdown(
     """
-    After an initial Random Forest, we tuned hyperparameters utilizing GridSearchCV.
+    After an initial Random Forest, we tuned hyperparameters utilizing GridSearchCV. We used R^2 as the evaluation metric because it is an easy-to-understand way of
+    explaining how much variance is explained by the model. We focused specifically on max depth when it came to tuning hyperparameters because it is one of the 
+    hyperparameters with the largest singular affect on results.
     """
 )
 
@@ -98,18 +99,26 @@ fig3 = px.line(r2_df,
             x='Max_Depth', 
             y='R2', 
             labels={"Max_Depth": 'Max Depth', "R2": 'R^2'},
-            title='R^2 by Different Max Depths')
+            title='R^2 by Different Max Depths'
+            )
 fig3.update_layout(
             xaxis = dict(
             tickmode = 'array',
             tickvals = [20,21,22,23,24]
-            ))
+            ),
+            showlegend=False,
+            )
+fig3.update_traces(mode="markers+lines", line_color='rebeccapurple')
 st.plotly_chart(fig3)
 
 
-#image = Image.open("photos/NRMSE.png")
+st.markdown(
+    """
+    After several cycles of testing various ranges of max depths, we tested 20-24 and found that the highest R^2 is at a max depth of 22. We therefore chose to use a Random Forest Regression
+    with a max depth of 22 as our final model.
+    """
+)
 
-#st.image(image, caption='Negative RMSE through GridSearchCV.')
 
 st.markdown(
     """

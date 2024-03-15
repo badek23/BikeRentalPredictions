@@ -216,7 +216,11 @@ if chart_type == '2011':
             y='cnt', 
             labels={"hr": 'Hour', "cnt": 'Mean Rentals'},
             color='Working Day',
+            color_discrete_sequence=['darkcyan', 'rebeccapurple'],
             title='Mean Rentals by Hour')
+    fig4.update_traces(mode="markers+lines", hovertemplate=None)
+    fig4.update_layout(hovermode="x unified")
+
 if chart_type == '2012':
     hour_data = hour_data[hour_data["yr"] == 1]
     fig4 = px.line(hour_data, 
@@ -225,6 +229,8 @@ if chart_type == '2012':
             labels={"hr": 'Hour', "cnt": 'Mean Rentals'},
             color='Working Day',
             title='Mean Rentals by Hour')
+    fig4.update_traces(mode="markers+lines", hovertemplate=None)
+    fig4.update_layout(hovermode="x unified")
 st.plotly_chart(fig4)
 
 st.markdown(
