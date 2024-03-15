@@ -31,8 +31,10 @@ st.markdown(
 # Exclude non-numeric columns from the correlation matrix
 # we are excluding the dateday column
 data = pd.read_csv("cleaned_data.csv")
+OG_data = pd.read_csv("bike-sharing_hourly.csv")
 
-numeric_data = data.select_dtypes(include=[np.number])
+
+numeric_data = OG_data.select_dtypes(include=[np.number])
 correlation = numeric_data.corr().abs()
 
 # Reverse the order of rows and columns
@@ -45,7 +47,7 @@ fig = go.Figure(data=go.Heatmap(
     y=list(correlation.index),
     text=correlation.values.round(2).astype(str),  # Use original values for annotations
     hoverinfo='text',
-    colorscale='Blues'
+    colorscale='viridis'
 ))
 
 # Update layout to make it more readable
@@ -86,9 +88,28 @@ st.markdown(
     """
 )
 
-image = Image.open("photos/NRMSE.png")
+means = joblib.load("means.joblib")
+list = list(means)
+depth = [20,21,22,23,24]
+frame = [[depth[0], list[0]], [depth[1], list[1]], [depth[2], list[2]],[depth[3], list[3]],[depth[4], list[4]]]
+r2_df = pd.DataFrame(frame, columns=['Max_Depth','R2'])
 
-st.image(image, caption='Negative RMSE through GridSearchCV.')
+fig3 = px.line(r2_df, 
+            x='Max_Depth', 
+            y='R2', 
+            labels={"Max_Depth": 'Max Depth', "R2": 'R^2'},
+            title='R^2 by Different Max Depths')
+fig3.update_layout(
+            xaxis = dict(
+            tickmode = 'array',
+            tickvals = [20,21,22,23,24]
+            ))
+st.plotly_chart(fig3)
+
+
+#image = Image.open("photos/NRMSE.png")
+
+#st.image(image, caption='Negative RMSE through GridSearchCV.')
 
 st.markdown(
     """
@@ -97,7 +118,7 @@ st.markdown(
 )
 
 
-model = joblib.load("Model.joblib")
+model = joblib.load("Model2.joblib")
 
 model_feat = model.feature_importances_
 columns = data.drop("cnt",axis=1).columns
@@ -107,9 +128,20 @@ fig2 = px.bar(model_feat,
             y=model_feat,
             orientation='v',
             title='Model Feature Importance',
-            barmode='group')
+            barmode='group',
+            color=model_feat,  # Color bars based on counts
+            color_continuous_scale='viridis',  # Use the same color scale as matplotlib
+            width=800, height=500)
 fig2.update_layout(
             xaxis_title="Features", yaxis_title="Importance"
             )
 
 st.plotly_chart(fig2)
+
+st.markdown(
+    """
+    We see here that the hour of the day is the most important feature by far. This makes sense logically: no matter any other factor, more people will ride bikes during
+    the daytime than they will during the night, when far more people are asleep. We see that the second most important feature is temperature feel. This also makes sense
+    logically, as we saw in our EDA process.
+    """
+)

@@ -39,7 +39,6 @@ if chart_type == 'Seasons':
                 width=800, height=500)  # Adjust width and height for better appearance
 
 # Add text annotations for each bar
-    fig1.update_traces(texttemplate='%{y}', textposition='outside')
     fig1.update_layout(
             xaxis = dict(
                 tickmode = 'array',
@@ -56,7 +55,6 @@ elif chart_type == 'Months':
                 color='cnt',  # Color bars based on counts
                 color_continuous_scale='viridis',  # Use the same color scale as matplotlib
                 width=800, height=500)  # Adjust width and height for better appearance) 
-    fig1.update_traces(texttemplate='%{y}', textposition='outside')
     fig1.update_layout(
             xaxis = dict(
                 tickmode = 'array',
@@ -78,15 +76,18 @@ st.markdown(
     """
 )
 
+weather_counts = data.groupby('weathersit')['cnt'].sum().reset_index()
 
-
-fig2 = px.bar(data, 
+fig2 = px.bar(weather_counts, 
             x='cnt', 
             y='weathersit', 
             labels={"cnt": 'Count of Rentals',"weathersit": 'Weather Type'},
             title='Count of Rentals by Weather',
             orientation='h',
-            barmode='group')
+            barmode='group',
+            color='cnt',  # Color bars based on counts
+            color_continuous_scale='viridis',  # Use the same color scale as matplotlib
+            width=800, height=500)
 fig2.update_layout(
         yaxis = dict(
             tickmode = 'array',
@@ -136,7 +137,10 @@ if chart_type == 'None':
                 labels={"atemp": 'Temperature Feel (C)', "cnt": 'Sum of Rentals'},
                 trendline='lowess',
                 trendline_color_override='red',
-                title='Daily Sum of Rentals by Temperature Feel')
+                title='Daily Sum of Rentals by Temperature Feel',
+                color='cnt',  # Color bars based on counts
+                color_continuous_scale='viridis',  # Use the same color scale as matplotlib
+                width=800, height=500)
 elif chart_type == 'Windspeed':
     year_dataset = year_data.groupby(["yr","mnth","day"]).agg({
         'atemp': 'mean',
@@ -147,10 +151,12 @@ elif chart_type == 'Windspeed':
                 x='atemp', 
                 y='cnt', 
                 labels={"atemp": 'Temperature Feel (C)', "cnt": 'Sum of Rentals'},
-                color='Windspeed',
                 trendline='lowess',
                 trendline_color_override='red',
-                title='Daily Sum of Rentals by Temperature Feel')
+                title='Daily Sum of Rentals by Temperature Feel',
+                color='Windspeed',  # Color bars based on counts
+                color_continuous_scale='viridis',  # Use the same color scale as matplotlib
+                width=800, height=500)
 elif chart_type == 'Humidity':
     year_dataset = year_data.groupby(["yr","mnth","day"]).agg({
         'atemp': 'mean',
@@ -161,10 +167,12 @@ elif chart_type == 'Humidity':
                 x='atemp', 
                 y='cnt', 
                 labels={"atemp": 'Temperature Feel (C)', "cnt": 'Sum of Rentals'},
-                color='Humidity',
                 trendline='lowess',
                 trendline_color_override='red',
-                title='Daily Sum of Rentals by Temperature Feel')
+                title='Daily Sum of Rentals by Temperature Feel',
+                color='Humidity',  # Color bars based on counts
+                color_continuous_scale='viridis',  # Use the same color scale as matplotlib
+                width=800, height=500)
 st.plotly_chart(fig3)
 
 st.markdown(
