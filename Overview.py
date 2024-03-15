@@ -18,6 +18,7 @@ st.markdown(
 st.markdown(
     """
     We began, of course, by ensuring the data was clean. Thankfully, there were no nulls or missing values at all - fantastic data quality! We took a look at the data 
-    itself, checking that data types were correct and that we fully understood how all normalized variables had been standardized.
+    itself, checking that data types were correct and that we fully understood how all normalized variables had been standardized. Then we moved on to exploration. Look 
+     through the tabs on the left to learn more!
     """
 )

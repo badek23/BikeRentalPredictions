@@ -11,18 +11,23 @@ from sklearn.ensemble import RandomForestClassifier
 st.title('Predict Bike Usage')
 st.header("Model Selection")
 
+
 st.markdown(
     """
-    Before training a model, we need to select features. We decided to remove several features through logic. We removed "yr" (year) because years are not cyclical: 
-    we can never have a new data point in 2011 or 2012, so training a model on those numbers is useless. We dropped "registered" and "casual" as these are parts of
-    the larger target variable, and therefore of course would be very highly correlated with the target variable. However, we cannot, of course, know these numbers in advance,
-    which makes them useless for prediction. We also removed "instant" because it is only an identifier. Lastly, we also calculated "day" (day of the month) from "dteday" 
-    and dropped "dteday" as we now had all of that information in other features.
+    After exploring the data for a while, we needed to choose a predictive model.
     """
 )
 st.markdown(
     """
-    We next took a look at a correlation matrix to understand if there is any multicollinearity between features.
+    Before we train a model, we need to select features. We decided to remove several features through logic. We removed "yr" (year) because years are not cyclical: 
+    we can never have a new data point in 2011 or 2012, so training a model on those numbers is useless. We dropped "registered" and "casual" as we cannot, of course, know these numbers in advance,
+    which makes them useless for prediction - they are, after all, simply portions of the target variable. We also removed "instant" because it is only an identifier. Lastly, we calculated "day" (day of the month) from "dteday" 
+    and dropped "dteday" as we now had all of that information contained in other features.
+    """
+)
+st.markdown(
+    """
+    After these initial feature choices, we next took a look at a correlation matrix to understand if there is any further multicollinearity between features.
     """
 )
 # CORRELATION MATRIX
@@ -66,8 +71,8 @@ st.plotly_chart(fig)
 
 st.markdown(
     """
-    It is clear here that atemp (temperature feel) and temp (real temperature) are extremely correlated, which makes sense. We'll remove one of these features. We decided 
-    to remove temp as people may act more on how warm it feels outside.
+    It is clear here that "atemp" (temperature feel) and "temp" (real temperature) are extremely correlated, which makes sense. We'll remove one of these features. We decided 
+    to remove "temp" as people may act more on how warm it feels outside.
     """
 )
 

@@ -3,24 +3,25 @@ import plotly.express as px
 import pandas as pd
 import numpy as np
 
-# Main content
+# Text
 st.title('Predict Bike Usage')
-st.header("Exploratory Data Analysis")
+st.header("Exploratory Data Analysis: Seasonality")
 
 st.markdown(
     """
-    In our exploration, we needed to ensure there were no nulls or otherwise wonky data, and we also needed to take a look under the hood to inspect trends and patterns. 
+    Our first hypothesis was that bike rentals would display seasonality, a concept that involves fluctuations based on time intervals. 
     """
 )
 st.markdown(
     """
-    We began by seeing if there is any seasonality in regards to how many bikes are rented.
+    We began by seeing if there are trends around seasons or months.
     """
 )
 
+# Load data
 data = pd.read_csv("cleaned_data.csv")
 
-# Plot rentals by season
+# Plot rentals by seasons and months
 
 chart_type = st.radio('Choose a time period:', ['Seasons', 'Months'])
 
@@ -34,11 +35,9 @@ if chart_type == 'Seasons':
                 labels={"season": 'Season', "cnt": 'Count of Rentals'},
                 title='Count of Rentals by Season',
                 barmode='group',
-                color='cnt',  # Color bars based on counts
-                color_continuous_scale='viridis',  # Use the same color scale as matplotlib
-                width=800, height=500)  # Adjust width and height for better appearance
-
-# Add text annotations for each bar
+                color='cnt',
+                color_continuous_scale='viridis', 
+                width=800, height=500)  
     fig1.update_layout(
             xaxis = dict(
                 tickmode = 'array',
@@ -52,9 +51,10 @@ elif chart_type == 'Months':
                 labels={"mnth": 'Month', "cnt": 'Count of Rentals'},
                 title='Count of Rentals by Month',
                 barmode='group',
-                color='cnt',  # Color bars based on counts
-                color_continuous_scale='viridis',  # Use the same color scale as matplotlib
-                width=800, height=500)  # Adjust width and height for better appearance) 
+                color='cnt', 
+                color_continuous_scale='viridis',  
+                width=800, height=500
+            )
     fig1.update_layout(
             xaxis = dict(
                 tickmode = 'array',
@@ -65,20 +65,23 @@ st.plotly_chart(fig1)
 
 st.markdown(
     """
-    We see here that there is a very clear seasonal change in bike demand. During the Winter and Spring, demand drops, while during the Summer and Autumn, more people rent bikes.
-    This trend is true when we split the data into monthly points as well.
+    We see here that there are very clear changes in bike demand throughout the year. During the Winter and Spring, demand drops, while during the Summer and Autumn, more people rent bikes.
+    This trend is true when we split the data into monthly sets as well.
     """
 )
 
 
 st.markdown(
     """
-    Let's next look at when during the day more people use bikes, as split by workday and weekend day. We hypothesized that there would be a difference in pattern here.
+    Our next point of inquiry is whether there are patterns throughout the day, as split by workday and weekend day. We hypothesized that there would 
+    be a difference in pattern here because people's general activity patterns change from workday to weekend day.
     """
 )
 
 
+year_data = pd.read_csv("bike-sharing_hourly.csv")
 
+year_data['day'] = year_data['dteday'].apply(lambda x: str(x)[-2:])
 year_data['Working Day'] = year_data['workingday']
 
 hour_data = year_data.groupby(["yr","workingday","hr"]).agg({
@@ -117,6 +120,7 @@ if chart_type == '2012':
             y='cnt', 
             labels={"hr": 'Hour', "cnt": 'Mean Rentals'},
             color='Working Day',
+            color_discrete_sequence=['darkcyan', 'rebeccapurple'],
             title='Mean Rentals by Hour')
     fig4.update_traces(mode="markers+lines", hovertemplate=None)
     fig4.update_layout(hovermode="x unified")

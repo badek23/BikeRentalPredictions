@@ -13,7 +13,8 @@ st.header("Prediction Simulator")
 
 st.markdown(
     """
-    Use this simulator to predict the number of bicycle users. Input the necessary information below and we'll tell you our estimate!
+    Now that we've discussed the data, use this simulator to predict the number of bicycle users on any given day. Input the necessary information below and 
+    we'll tell you our estimate!
     """
 )
 
