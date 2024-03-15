@@ -219,7 +219,7 @@ workingday = change_workingday(holiday, weekday)
 
 
 # Upload model
-model = joblib.load("Model.pkl")
+model = joblib.load("Model.joblib")
 
 # Make prediction and display answer
 if st.button('Click here to predict!'):
