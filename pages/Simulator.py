@@ -158,9 +158,7 @@ def change_weekday(data):
     else:
         return 1
 
-def change_feeltemp(data):
-    temp = data/50
-    return temp
+temperature_feel = temperature_feel/50
 
 def change_humidity(data):
     data = data/100
@@ -192,7 +190,6 @@ season = change_season(season)
 month = change_month(month)
 day_of_week = change_day_of_week(day_of_week)
 weekday = change_weekday(day_of_week)
-temperature_feel = change_feeltemp(temperature_feel)
 humidity = change_humidity(humidity)
 wind = change_wind(wind)
 weather = change_weather(weather)
