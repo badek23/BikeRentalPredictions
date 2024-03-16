@@ -30,15 +30,13 @@ st.markdown(
     After these initial feature choices, we next took a look at a correlation matrix to understand if there is any further multicollinearity between features.
     """
 )
+
 # CORRELATION MATRIX
 
-# Exclude non-numeric columns from the correlation matrix
-# we are excluding the dateday column
 data = pd.read_csv("cleaned_data.csv")
-OG_data = pd.read_csv("bike-sharing_hourly.csv")
 
-
-numeric_data = OG_data.select_dtypes(include=[np.number])
+# Exclude non-numeric columns from the correlation matrix
+numeric_data = data.select_dtypes(include=[np.number])
 correlation = numeric_data.corr().abs()
 
 # Reverse the order of rows and columns
@@ -65,7 +63,6 @@ fig.update_layout(
     margin=dict(l=150, r=150, b=100, t=235)  # Adjust margins to fit labels, increase top margin
 )
 
-# Show the corrected diagonal figure
 st.plotly_chart(fig)
 
 
@@ -94,6 +91,10 @@ st.markdown(
     """
 )
 
+
+# Plot R^2 by depths during cross-validation
+
+# Load means data and manipulate it into a DataFrame along with the Max_Depths
 means = joblib.load("means.joblib")
 list = list(means)
 depth = [20,21,22,23,24]
@@ -132,6 +133,9 @@ st.markdown(
 )
 
 
+# Plot Feature Importance
+
+# Load model
 model = joblib.load("Model2.joblib")
 
 model_feat = model.feature_importances_
@@ -143,11 +147,11 @@ fig2 = px.bar(model_feat,
             orientation='v',
             title='Model Feature Importance',
             barmode='group',
-            color=model_feat,  # Color bars based on counts
-            color_continuous_scale='viridis',  # Use the same color scale as matplotlib
+            color=model_feat,  
+            color_continuous_scale='viridis',  
             width=800, height=500)
 fig2.update_layout(
-            xaxis_title="Features", yaxis_title="Importance"
+            xaxis_title="Feature", yaxis_title="Importance"
             )
 
 st.plotly_chart(fig2)
@@ -157,5 +161,12 @@ st.markdown(
     We see here that the hour of the day is the most important feature by far. This makes sense logically: no matter any other factor, more people will ride bikes during
     the daytime than they will during the night, when far more people are asleep. We see that the second most important feature is temperature feel. This also makes sense
     logically, as we saw in our EDA process.
+    """
+)
+
+st.markdown(
+    """
+    We of course, lastly, validated our model on the test set. Compared to the train dataset's 0.845 R^2, the test dataset had an R^2 of 0.789. This is a decrease, but in this 
+    case is sufficient for approximating number of bike rentals.
     """
 )
