@@ -54,7 +54,7 @@ st.markdown(
 
 st.markdown(
     """
-    We check next the bike rental counts by daily temperature. The red line is the line of best fit utilizing Locally Weighted Scatterplot Smoothing.
+    We check next the bike rental counts by daily temperature. The red line is the line of best fit utilizing Locally Weighted Scatterplot Smoothing (LOWESS).
     Use the dropdown menu to change the colors in the chart to a third, optional, weather-related variable as well.
     """
 )
