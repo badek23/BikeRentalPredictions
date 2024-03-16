@@ -14,19 +14,21 @@ st.markdown(
 )
 st.markdown(
     """
-    We began by seeing if there are trends around seasons or months.
+    We began by seeing if there are trends around seasons, months, or weeks.
     """
 )
 
 # Load data
 data = pd.read_csv("cleaned_data.csv")
 
+
 # Plot rentals by seasons and months
 
-chart_type = st.radio('Choose a time period:', ['Seasons', 'Months'])
+chart_type = st.radio('Choose a time period:', ['Seasons', 'Months', 'Weeks'])
 
 season_counts = data.groupby('season')['cnt'].sum().reset_index()
 month_counts = data.groupby('mnth')['cnt'].sum().reset_index()
+weekday_counts = data.groupby('weekday')['cnt'].sum().reset_index()
 
 if chart_type == 'Seasons':
     fig1 = px.bar(season_counts, 
@@ -61,12 +63,27 @@ elif chart_type == 'Months':
                 tickvals = [1,2,3,4,5,6,7,8,9,10,11,12],
                 ticktext = ["January","February","March","April","May","June","July","August","September","October","November","December"]
             ))
+elif chart_type == 'Weeks':
+    fig1 = px.bar(weekday_counts, x='weekday', y='cnt', 
+                title='Count of Rentals by Day of Week',
+                labels={'cnt': 'Count of Rentals', 'weekday': 'Day of Week'},
+                color='cnt', 
+                color_continuous_scale='viridis',  
+                width=800, height=500)
+    fig1.update_layout(
+            xaxis = dict(
+                tickmode = 'array',
+                tickvals = [0,1,2,3,4,5,6],
+                ticktext = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
+            ))
+
 st.plotly_chart(fig1)
 
 st.markdown(
     """
     We see here that there are very clear changes in bike demand throughout the year. During the Winter and Spring, demand drops, while during the Summer and Autumn, more people rent bikes.
-    This trend is true when we split the data into monthly sets as well.
+    This trend is true when we split the data into monthly sets as well. There is less of an obvious pattern by day of the week, though there appears to be a slightly 
+    higher number of bike riders on weekdays than on weekends. One theory is that a fair number of bikers are commuters who do not work on the weekends.
     """
 )
 
@@ -78,6 +95,8 @@ st.markdown(
     """
 )
 
+
+# Plot rentals over the day, split by working day vs. weekend day
 
 year_data = pd.read_csv("bike-sharing_hourly.csv")
 
@@ -112,8 +131,7 @@ if chart_type == '2011':
             title='Mean Rentals by Hour')
     fig4.update_traces(mode="markers+lines", hovertemplate=None)
     fig4.update_layout(hovermode="x unified")
-
-if chart_type == '2012':
+elif chart_type == '2012':
     hour_data = hour_data[hour_data["yr"] == 1]
     fig4 = px.line(hour_data, 
             x='hr', 
@@ -134,3 +152,24 @@ st.markdown(
     remains extremely stable from 2011 to 2012.
     """
 )
+
+st.markdown(
+    """
+    We also looked at the data over the month, but we see no marked patterns here.
+    """
+)
+
+# Plot rentals by day of the month
+
+# Group by 'day' and calculate the average counts
+day_avg_counts = data.groupby('day')['cnt'].mean().reset_index()
+
+# Create the bar chart using Plotly Express
+fig5 = px.bar(day_avg_counts, x='day', y='cnt', 
+             title='Mean Rentals by Day of the Month',
+             labels={'cnt': 'Mean Rentals', 'day': 'Day of Month'},
+             color='cnt',  
+             color_continuous_scale='viridis',  
+             width=800, height=500) 
+
+st.plotly_chart(fig5)
