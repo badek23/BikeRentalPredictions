@@ -3,9 +3,7 @@ import streamlit as st
 # Sidebar
 
 # Main content
-st.title('Predict Bike Usage')
-st.header("Overview")
-
+st.title('Bike Rental Explorations')
 st.markdown(
     """
     Welcome! In this app, you'll discover many different insights on bike rentals. You'll learn more about what factors affect people's likelihood to rent bikes, 

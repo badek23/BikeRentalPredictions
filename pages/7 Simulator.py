@@ -8,7 +8,7 @@ from sklearn.ensemble import RandomForestClassifier
 
 # Page text
 
-st.title('Predict Bike Usage')
+st.title('Bike Rental Explorations')
 st.header("Prediction Simulator")
 
 st.markdown(

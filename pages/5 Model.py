@@ -8,7 +8,7 @@ from sklearn.ensemble import RandomForestClassifier
 
 # Main content
 
-st.title('Predict Bike Usage')
+st.title('Bike Rental Explorations')
 st.header("Model Selection")
 
 

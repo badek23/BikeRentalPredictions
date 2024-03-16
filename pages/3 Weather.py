@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 
 # Main content
-st.title('Predict Bike Usage')
+st.title('Bike Rental Explorations')
 st.header("Exploratory Data Analysis: Weather")
 
 st.markdown(

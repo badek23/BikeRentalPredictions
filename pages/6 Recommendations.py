@@ -2,7 +2,7 @@ import streamlit as st
 
 # Main content
 
-st.title('Predict Bike Usage')
+st.title('Bike Rental Explorations')
 st.header('Recommendations')
 
 st.markdown(

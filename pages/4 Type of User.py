@@ -6,8 +6,8 @@ import plotly.express as px
 
 # Main content
 
-st.title('Predict Bike Usage')
-st.header("Exploration on Type of User")
+st.title('Bike Rental Explorations')
+st.header("Exploratory Data Analysis: Type of User")
 
 
 st.markdown(
