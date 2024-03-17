@@ -76,7 +76,7 @@ st.plotly_chart(fig)
 st.markdown(
     """
     We can see that the LOWESS trendline is generally even - however, we can note a sparser and more variable smattering of data points as the graph moves up and to 
-     the right. From this we deduct that variability in this model appears to increase as the value increases. There is also a slight angle at about 150. This slight flattening 
+     the right. From this we deduct that variability in this model appears to increase as the value increases. There is also a slight angle in the trendline at about 150. This slight flattening 
      of the line after this value indicates that the Real value is relatively higher than the Predicted value, as compared to the Real-Predicted comparison before 
      the angle.
     """
