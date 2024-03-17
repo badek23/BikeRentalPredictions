@@ -47,12 +47,6 @@ st.markdown(
 )
 
 
-
-# Form data for the following charts
-weekly_counts = data.groupby('weekday')[['casual','registered']].sum().reset_index()
-monthly_counts = data.groupby('mnth')[['casual','registered']].sum().reset_index()
-season_counts = data.groupby('season')[['casual','registered']].sum().reset_index()
-
 chart_type = st.radio('Choose a time period:', ['Weeks', 'Months', 'Seasons'])
 
 # Format the data properly so we can use it to show percentages in the stacked bar charts
