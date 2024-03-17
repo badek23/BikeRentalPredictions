@@ -47,8 +47,53 @@ st.markdown("*Recommendations:*")
 # Text below the chart
 st.write("""
     For example, we could recommend to create a promotional campaign to encourage people to rent more during the week-end, 
-    e.g: "*First 3 minutes are free on Sundays*" (Sundays because it is the least popular day).
+    e.g: "**First 3 minutes are free on Sundays**" (Sundays because it is the least popular day).
 """)
+
+# Format the data properly so we can use it to show percentages in the stacked bar chart below
+season_reg = data.groupby('season')[['registered']].sum().reset_index()
+season_reg['TYPE'] = 'Registered'
+season_reg['user'] = season_reg['registered']
+season_reg = season_reg.drop('registered',axis=1)
+
+season_cas = data.groupby('season')[['casual']].sum().reset_index()
+season_cas['TYPE'] = 'Casual'
+season_cas['user'] = season_cas['casual']
+season_cas = season_cas.drop('casual',axis=1)
+
+# Combine above DFs vertically and add weight column
+combine_season = (season_reg,season_cas)
+total_season = pd.concat(combine_season)
+total_season['weight'] = total_season['user'] / total_season.groupby(['season'])['user'].transform('sum')
+
+# Plot stacked bar chart
+fig3 = px.bar(total_season, x="season", y='weight', color='TYPE',  
+            title="Share of Casual and Registered Users by Season",
+            labels={'weight': 'Share', 'TYPE': 'Type of User','season':'Season'},
+            color_discrete_sequence=['rebeccapurple','darkcyan'],
+            width=800, height=500)
+fig3.update_layout(
+        xaxis = dict(
+            tickmode = 'array',
+            tickvals = [1,2,3,4],
+            ticktext = ["Spring","Summer","Autumn","Winter"]
+        ))
+fig3.update_traces(texttemplate='%{value:.2f}')
+st.plotly_chart(fig3)
+
+# Insights
+st.markdown("*Insights:*")
+st.write("""
+    Here we wanted to look at how the season change really affects the users.. if, for example, registered users will keep renting their bike regardless of the season or weather conditions (since they are paying a subscription).. or at least if they are less sensitive to these changes affecting their choice to bike, as opposed to casual users.
+    We can now see that this is clearly the case. It is also strange that the distribution is the least balanced during Spring and Summer.
+""")
+
+# Recommendation
+st.markdown("*Recommendation:*")
+st.write("""
+    We could recommend adding a coupon for first-time users during these seasons.
+""")
+
 
 # Title: Bonuses and other offers:
 st.subheader("**Bonuses and Other Offers:**")
@@ -79,6 +124,52 @@ st.markdown("*Recommendation:*")
 # Text below the chart
 st.write("""
     This large unbalance between the types of users could be a good indication to perhaps change the bike sharing app to a 'Freemium' type of service.. giving more options and bonuses to registered users, and so inciting more people to pay for a subscription. Like for example, free unlocks (taking inspiration from how services like Uber Lime work).
+""")
+
+# Group by 'workingday' and sum the counts
+workingday_counts = data.groupby('workingday')['cnt'].sum().reset_index()
+
+# Define labels, sizes, and colors for the pie chart
+labels = ['Non-Working Day', 'Working Day']
+sizes = workingday_counts['cnt']
+colors = ['darkcyan', 'rebeccapurple']
+
+# Create the pie chart using Plotly Express
+fig1 = go.Figure(data=[go.Pie(labels=labels, values=sizes, hole=0.5, textinfo='percent', marker=dict(colors=colors))])
+
+# Set layout options
+fig1.update_layout(title='Share of Rentals between Working Days and Non-Working Days')
+
+# Show the chart
+st.plotly_chart(fig1)
+
+# Count occurrences of working days and non-working days
+workingday_counts = data['workingday'].value_counts()
+
+# Define labels, sizes, and colors for the pie chart
+labels = ['Working Day', 'Non-Working Day']
+sizes = workingday_counts.values
+colors = ['rebeccapurple','darkcyan']
+
+# Create the pie chart using Plotly Express
+fig2 = go.Figure(data=[go.Pie(labels=labels, values=sizes, hole=0.5, textinfo='percent', marker=dict(colors=colors))])
+
+# Set layout options
+fig2.update_layout(title='Share of Working Days and Non-Working Days')
+
+# Show the chart
+st.plotly_chart(fig2)
+
+# Insights
+st.markdown("*Insights:*")
+st.write("""
+    Using the previous two donut charts we can see that non-working days represent quite a large chunk of total days. However, comparing them, we are surprised to see that the ratio is very 1 to 1.. Indeed, people are not particularly more inclined to go bike-riding than when it is a working day.
+""")
+
+# Recommendation
+st.markdown("*Recommendation:*")
+st.write("""
+    We could, therefore, recommend our customer to create some promotional events for users to motivate them to rent more bikes on weekends and national holidays or bank holidays.
 """)
 
 # Title: Cost optimizing; fleet management; and technical improvements:
