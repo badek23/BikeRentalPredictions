@@ -41,8 +41,8 @@ st.plotly_chart(fig)
 
 st.markdown(
     """
-    Now that we know the split between casual and registered users overall, we can see if there are any differences between these two groups. First, let's see if there is
-     a difference in which days they tend to bike.
+    Now that we know the split between casual and registered users overall, we can see if there are any differences between these two groups. Let's see if there is
+     a difference in which days they tend to bike. Use the dropdown menu below to take a look at the split by months and seasons as well.
     """
 )
 

@@ -33,10 +33,13 @@ st.markdown(
 
 # CORRELATION MATRIX
 
-data = pd.read_csv("cleaned_data.csv")
+# Use original data, so it still has both temp and atemp in it for the correlation matrix
+original_data = pd.read_csv("bike-sharing_hourly.csv")
+original_data['day'] = original_data['dteday'].apply(lambda x: str(x)[-2:])
+original_data = original_data.drop(["dteday","casual","registered","instant","yr"],axis=1)
 
 # Exclude non-numeric columns from the correlation matrix
-numeric_data = data.select_dtypes(include=[np.number])
+numeric_data = original_data.select_dtypes(include=[np.number])
 correlation = numeric_data.corr().abs()
 
 # Reverse the order of rows and columns
@@ -54,12 +57,12 @@ fig = go.Figure(data=go.Heatmap(
 
 # Update layout to make it more readable
 fig.update_layout(
-    title='Diagonal Correlation Matrix',  # Update title
+    title='Correlation Matrix',  # Update title
     xaxis=dict(tickangle=45, side='top', automargin=True),  # Rotate x-axis labels and enable auto margin
     yaxis=dict(tickmode='array', automargin=True),
     autosize=False,  # Disable autosize to set custom width and height
-    width=800,  # Increase width if needed
-    height=800,  # Increase height if needed
+    width=800, 
+    height=800, 
     margin=dict(l=150, r=150, b=100, t=235)  # Adjust margins to fit labels, increase top margin
 )
 
@@ -124,19 +127,17 @@ st.markdown(
     with a max depth of 22 as our final model.
     """
 )
-
-
 st.markdown(
     """
     We took a look at feature importance next.
     """
 )
 
-
 # Plot Feature Importance
 
-# Load model
+# Load model and data
 model = joblib.load("Model2.joblib")
+data = pd.read_csv("cleaned_data.csv")
 
 model_feat = model.feature_importances_
 columns = data.drop("cnt",axis=1).columns
