@@ -163,7 +163,7 @@ st.plotly_chart(fig2)
 # Insights
 st.markdown("*Insights:*")
 st.write("""
-    Using the previous two donut charts we can see that non-working days represent quite a large chunk of total days. However, comparing them, we are surprised to see that the ratio is very 1 to 1.. Indeed, people are not particularly more inclined to go bike-riding than when it is a working day.
+    Using the previous two donut charts we can see that non-working days represent quite a large chunk of total days. However, comparing them, we are surprised to see that the ratio is very 1 to 1. Indeed, people are not particularly more inclined to go bike-riding than when it is a working day.
 """)
 
 # Recommendation
