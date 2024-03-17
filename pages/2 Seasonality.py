@@ -155,7 +155,7 @@ st.markdown(
 
 st.markdown(
     """
-    We also looked at the data over the month, but we see no marked patterns here.
+    We also looked at the data over the month.
     """
 )
 
@@ -173,3 +173,10 @@ fig5 = px.bar(day_avg_counts, x='day', y='cnt',
              width=800, height=500) 
 
 st.plotly_chart(fig5)
+
+st.markdown(
+    """
+    We see here that people rent bikes the most during the middle of the month, with the least popular day being the 22nd and the most popular being the 17th. This information 
+    will likely be less actionable than many of our other insights, but is interesting to note nonetheless.
+    """
+)
