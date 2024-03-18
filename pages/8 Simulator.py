@@ -13,7 +13,7 @@ st.header("Prediction Simulator")
 
 st.markdown(
     """
-    Now that we've discussed the data, use this simulator to predict the number of bicycle users on any given day. Input the necessary information below and 
+    Now that we've discussed the data, use this simulator to predict the number of bicycle users at any given hour on any given day. Input the necessary information below and 
     we'll tell you our estimate!
     """
 )
@@ -210,4 +210,4 @@ if st.button('Click here to predict!'):
     df = pd.DataFrame(frame, columns=['season','mnth','hr','holiday','weekday','workingday','weathersit','atemp','hum','windspeed','day'])
 
     pred = model.predict(df)
-    st.write('We predict ', round(pred[0]), ' bike users that day.')
+    st.write('We predict ', round(pred[0]), ' bike users that hour.')
