@@ -8,7 +8,7 @@ This project is coded in Python. Libraries used include: 🎨streamlit | 🧠sci
 ### Files
 - Overview: This file contains the script for the landing page of the app.
 - pages: This folder contains all of the scripts for the other pages of the app.
-- Group3_Notebook_Assignment2: This file contains all script for creation of the project, including EDA, model creation, etc.
+- EDA_and_prep: This file contains all script for creation of the project, including EDA, model creation, etc.
 - Model2: This joblib file contains the model for upload into the app.
 - bike_sharing_hourly: This csv is the original, provided data.
 - cleaned_data: This csv is the cleaned data.
