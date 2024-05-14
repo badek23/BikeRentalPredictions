@@ -131,11 +131,11 @@ def change_month(data):
     elif data == "December":
         return 12
 
-def change_holiday(data):
-    if data == "Yes":
-        return 1
-    else:
-        return 0
+#def change_holiday(data):
+#    if data == "Yes":
+#        return 1
+#    else:
+#        return 0
     
 def change_day_of_week(data):
     if data == "Monday":
