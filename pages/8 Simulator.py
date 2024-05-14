@@ -64,9 +64,9 @@ day_of_week = col1.selectbox(label="What day of the week is it?",
              index=None, 
              placeholder="Choose an option.")
 
-if day_of_week in ["Monday","Tuesday","Wednesday","Thursday","Friday"]:
-    holiday = col1.radio(label="Is the day a holiday?", 
-                    options=["Yes","No"])
+#if day_of_week in ["Monday","Tuesday","Wednesday","Thursday","Friday"]:
+#    holiday = col1.radio(label="Is the day a holiday?", 
+#                    options=["Yes","No"])
 
 temperature_feel = col2.slider(label="What is the temperature feel (in Celsius)?",
              min_value=0,
