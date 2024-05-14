@@ -161,13 +161,15 @@ st.markdown(
     """
     We see here that the hour of the day is the most important feature by far. This makes sense logically: no matter any other factor, more people will ride bikes during
     the daytime than they will during the night, when far more people are asleep. We see that the second most important feature is temperature feel. This also makes sense
-    logically, as we saw in our EDA process.
+    logically, as we saw in our EDA process. 
+
+    We also see that holidays barely affect the model at all; we will remove this feature from the feature set and retrain the model using the above steps.
     """
 )
 
 st.markdown(
     """
-    We of course, lastly, validated our model on the test set. Compared to the train dataset's 0.845 R^2, the test dataset had an R^2 of 0.789. This is a decrease, but in this 
+    We of course, lastly, validated our model on the test set. Compared to the train dataset's 0.85 R^2, the test dataset had an R^2 of 0.80. This is a decrease, but in this 
     case is sufficient for approximating number of bike rentals.
     """
 )

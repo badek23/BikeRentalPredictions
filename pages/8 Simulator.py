@@ -191,12 +191,6 @@ weekday = change_weekday(day_of_week)
 weather = change_weather(weather)
 
 
-if weekday == 0:
-    holiday = change_holiday(holiday)
-else:
-    holiday = 0
-
-workingday = change_workingday(holiday, weekday)
 
 
 
@@ -205,9 +199,9 @@ model = joblib.load("Model2.joblib")
 
 # Make prediction and display answer
 if st.button('Click here to predict!'):
-    frame = [[season, month, hour, holiday, weekday, workingday, weather, temperature_feel, humidity, wind, day]]
+    frame = [[season, month, hour, weekday, workingday, weather, temperature_feel, humidity, wind, day]]
  
-    df = pd.DataFrame(frame, columns=['season','mnth','hr','holiday','weekday','workingday','weathersit','atemp','hum','windspeed','day'])
+    df = pd.DataFrame(frame, columns=['season','mnth','hr','weekday','workingday','weathersit','atemp','hum','windspeed','day'])
 
     pred = model.predict(df)
     st.write('We predict ', round(pred[0]), ' bike users that hour.')
