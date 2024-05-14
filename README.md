@@ -1,6 +1,6 @@
-# PythonII-FinalGroupProject
+# Bike Rental Predictions
 ### About this project
-This is the final group project for a Master's-level Python II class. Given data on bike rentals, the prompt was to create an app that provided (1) important insights into the data found through EDA, (2) a basic machine learning model that predicts number of bike rentals by hour, (3) insights on how the model performs, (4) recommendations for this bike rental business based on our insights, and finally (5) a simulator that takes user input and predicts the number of bike rentals. The deployed app can be found here: https://pythonfinal.streamlit.app/
+This project was in collaboration with a classmate. Provided data on a bike rental company, we created an app that provides (1) important insights into the data found through EDA, (2) a model that predicts number of bike rentals by hour, (3) insights on how the model performs, (4) recommendations for the business based on our insights, and finally (5) a simulator that takes user input and predicts the number of bike rentals. The deployed app can be found here: https://pythonfinal.streamlit.app/
 
 ### Technologies 
 This project is coded in Python. Libraries used include: 🎨streamlit | 🧠scikit-learn | 📉plotly | 🌊seaborn | 🐼pandas | 🧮numpy | 🔧joblib
